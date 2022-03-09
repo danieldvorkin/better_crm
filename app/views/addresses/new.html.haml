@@ -1,5 +1,51 @@
-%h1 New address
+.text-center
+  %img.d-block.mx-auto.mb-4{:alt => "", :height => "72", :src => "https://img.icons8.com/external-justicon-lineal-justicon/64/000000/external-inventory-business-management-justicon-lineal-justicon.png", :width => "72"}/
+  %h2 New Address
+  %p.lead Use the search below to find and auto-fill the address.
+.mt-4.mb-4
+  %label Search
+  %select#address_lookup.form-control{:name => "address_lookup"}
 
-= render 'form'
+.mt-4.mb-4
+  = render 'form'
 
-= link_to 'Back', addresses_path
+:javascript
+  $(function(){
+    $('#address_lookup').select2({
+      ajax: {
+        url: "/lookup",
+        delay: 250,
+        type: 'GET',
+        data: function(params){
+          return { query: params.term }
+        },
+        processResults: function (data) {
+          var data = $.map(data, function(item){
+            var formattedAddress = [item.address.house_number, item.address.road, item.address.city, item.address.postcode, item.address.state, item.address.country].join(" ")
+            return { id: item.place_id, text: formattedAddress }
+          });
+
+          return {
+            results: data
+          };
+        }
+      }
+    });
+
+    $('#address_lookup').on('select2:select', function(e){
+      $.ajax({
+        url: '/lookup',
+        type: 'GET',
+        data: { query: e.target.textContent },
+        success: function(resp){
+          if(resp.length > 0){
+            $('#address_address1').val([resp[0].address.house_number, resp[0].address.road].join(" "));
+            $('#address_city').val(resp[0].address.city);
+            $('#address_country').val(resp[0].address.country);
+            $('#address_postal').val(resp[0].address.postcode);
+            $('#address_state_province').val(resp[0].address.state);
+          }
+        }
+      })
+    })
+  });

@@ -57,6 +57,13 @@ class AddressesController < ApplicationController
     end
   end
 
+  def lookup
+    results = Geocoder.search(params[:query], params: { countrycodes: 'us,ca,eu'})
+    respond_to do |format|
+      format.json { render json: results.map(&:data) }
+    end
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_address
@@ -65,6 +72,6 @@ class AddressesController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def address_params
-      params.require(:address).permit(:address1, :address2, :city, :country, :postal, :phone, :default, :active, :customer_id)
+      params.require(:address).permit(:address1, :address2, :city, :state_province, :country, :postal, :phone, :default, :active, :customer_id)
     end
 end

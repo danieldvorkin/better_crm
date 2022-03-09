@@ -13,6 +13,7 @@ Rails.application.routes.draw do
     resources :inventory_items
   end
   
+  get 'lookup', to: 'addresses#lookup', as: 'lookup'
   root to: 'visitor#index'
   devise_for :users
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html

@@ -98,6 +98,7 @@ GEM
     erubis (2.7.0)
     execjs (2.8.1)
     ffi (1.15.5)
+    geocoder (1.7.3)
     globalid (1.0.0)
       activesupport (>= 5.0)
     haml (5.2.2)
@@ -270,6 +271,7 @@ DEPENDENCIES
   chromedriver-helper
   cocoon
   devise
+  geocoder
   haml-rails (~> 2.0)
   jbuilder (~> 2.5)
   jquery-rails
