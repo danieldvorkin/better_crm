@@ -1,0 +1,40 @@
+.card
+  .card-header
+    .text-start
+      .d-inline-flex
+        %h4 Quotes
+    .text-end
+      .d-inline-flex
+        = link_to 'New Quote', new_quote_path, class: 'btn btn-primary btn-sm'
+  .card-body
+    %table#quotes_table
+      %thead
+        %tr
+          %th Quote
+          %th Customer
+          %th Active
+          %th Total
+          %th Quote type
+          %th Taxes
+          %th Fees
+          %th Shipping address
+          %th Billing address
+          %th Status
+          %th Actions
+
+      %tbody
+        - @quotes.each do |quote|
+          %tr
+            %td= link_to "0000#{quote.id}", quote
+            %td= quote.customer.email
+            %td= quote.active
+            %td= quote.total
+            %td= quote.quote_type
+            %td= quote.taxes
+            %td= quote.fees
+            %td= quote.shipping_address.full_address.truncate(25)
+            %td= quote.billing_address.full_address.truncate(25)
+            %td= quote.status
+            %td
+              = link_to 'Edit', edit_quote_path(quote) | 
+              = link_to 'Destroy', quote, method: :delete, data: { confirm: 'Are you sure?' }

@@ -1,0 +1,31 @@
+
+
+= form_with(model: customer, local: true) do |form|
+  - if customer.errors.any?
+    #error_explanation
+      %h2
+        = pluralize(customer.errors.count, "error")
+        prohibited this customer from being saved:
+      %ul
+        - customer.errors.full_messages.each do |message|
+          %li= message
+  .field-group
+    = form.label :account_id, class: 'form-label'
+    = form.select :account_id, options_from_collection_for_select(Account.where(active: true), "id", "name"), {}, class: 'form-control'
+  .field-group
+    = form.label :name, class: 'form-label'
+    = form.text_field :name, class: 'form-control'
+  .field-group
+    = form.label :display_name, class: 'form-label'
+    = form.text_field :display_name, class: 'form-control'
+  .field-group
+    = form.label "Phone Number", class: 'form-label'
+    = form.text_field :phone_num, class: 'form-control'
+  .field-group
+    = form.label :email, class: 'form-label'
+    = form.text_field :email, class: 'form-control'
+  .field-group.mt-3.mb-3
+    = form.label :active, class: 'form-label'
+    = form.check_box :active
+  .actions
+    = form.submit "Save", class: 'btn btn-primary'

@@ -1,0 +1,36 @@
+%p#notice= notice
+.card
+  .card-header
+    .text-start
+      .d-inline-flex
+        %h4 Inventory Items
+    .text-end
+      .d-inline-flex
+        = link_to 'New Inventory Item', new_inventory_item_path, class: 'btn btn-primary btn-sm'
+  .card-body
+    %table#inventory_items_table
+      %thead
+        %tr
+          %th Name
+          %th Description
+          %th Stock
+          %th Account
+          %th Active
+          %th Price
+          %th Category
+          %th Type
+          %th Actions
+      %tbody
+        - @inventory_items.each do |inventory_item|
+          %tr
+            %td= link_to inventory_item.name&.truncate(30), inventory_item
+            %td= inventory_item.description&.truncate(40)
+            %td= inventory_item.stock
+            %td= link_to inventory_item.account.name, inventory_item.account
+            %td= inventory_item.active
+            %td= inventory_item.price
+            %td= inventory_item.category&.truncate(40)
+            %td= inventory_item.product_type
+            %td
+              = link_to 'Edit', edit_inventory_item_path(inventory_item)
+              | #{link_to 'Destroy', inventory_item, method: :delete, data: { confirm: 'Are you sure?' }}

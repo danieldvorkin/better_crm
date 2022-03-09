@@ -1,0 +1,38 @@
+.card
+  .card-header
+    .text-start
+      .d-inline-flex
+        %h4 Address Book
+    .text-end
+      .d-inline-flex
+        = link_to 'New Address', new_address_path, class: 'btn btn-primary btn-sm'
+  .card-body
+    %table#addresses_table
+      %thead
+        %tr
+          %th Address1
+          %th Address2
+          %th City
+          %th Country
+          %th Postal
+          %th Phone
+          %th Default
+          %th Active
+          %th Customer
+          %th Actions
+
+      %tbody
+        - @addresses.each do |address|
+          %tr
+            %td= link_to address.address1, address
+            %td= address.address2
+            %td= address.city
+            %td= address.country
+            %td= address.postal
+            %td= address.phone
+            %td= address.default
+            %td= address.active
+            %td= address.customer.name
+            %td
+              = link_to 'Edit', edit_address_path(address) |
+              = link_to 'Destroy', address, method: :delete, data: { confirm: 'Are you sure?' }

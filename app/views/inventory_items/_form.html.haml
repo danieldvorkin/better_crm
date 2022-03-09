@@ -1,0 +1,52 @@
+.row
+  .col-md-7.col-lg-8
+    = form_with(model: inventory_item, local: true) do |form|
+      .row.g-3
+        - if inventory_item.errors.any?
+          #error_explanation
+            %h2
+              = pluralize(inventory_item.errors.count, "error")
+              prohibited this inventory_item from being saved:
+            %ul
+              - inventory_item.errors.full_messages.each do |message|
+                %li= message
+        .col-sm-12
+          = form.label :name, class: 'form-label'
+          = form.text_field :name, autofocus: true, autocomplete: "name", class: 'form-control'
+        .col-sm-12
+          = form.label :description, class: 'form-label'
+          = form.text_area :description, autocomplete: "description", class: 'form-control'
+        .col-sm-3
+          = form.label :stock, class: 'form-label'
+          = form.number_field :stock, autocomplete: "stock", class: 'form-control'
+        .col-sm-3
+          = form.label :price, class: 'form-label'
+          = form.number_field :price, autocomplete: "price", class: 'form-control'
+        .col-sm-6
+          = form.label :account_id, class: 'form-label'
+          = form.select :account_id, options_from_collection_for_select(Account.where(active: true), "id", "name"), {}, class: 'form-control'
+        .col-sm-6
+          = form.label :category, class: 'form-label'
+          = form.text_field :category, autocomplete: "category", class: 'form-control'
+        .col-sm-6
+          = form.label :product_type, class: 'form-label'
+          = form.text_field :product_type, autocomplete: "product_type", class: 'form-control'
+        .row.g-3
+          .col-1
+          = form.submit "Save", class: 'btn btn-primary btn-md col-4'
+          .col-1
+          .col-1
+          = link_to "Cancel", :back, class: 'btn btn-secondary btn-md col-4'
+          .col-1
+  .col-md-5.col-lg-4
+    %h4.d-flex.justify-content-between.align-items-center.mb-3
+      %span.text-primary Inventory Statistics
+    %ul.list-group.mb-3
+      %li.list-group-item.d-flex.justify-content-between.lh-sm
+        %div
+          %h6.my-0 Items
+          %small.text-muted Total Active Items
+        %span.text-muted= current_user.accounts.map(&:customers).count
+    %form.card.p-2
+      .input-group
+        %input.form-control{:placeholder => "Look for an Item....", :type => "text"}/

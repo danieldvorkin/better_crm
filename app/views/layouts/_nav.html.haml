@@ -1,0 +1,27 @@
+%nav.navbar.navbar-expand-lg.navbar-dark.bg-primary
+  .container-fluid
+    %a.navbar-brand{:href => "/"} Better CRM
+    %button.navbar-toggler{"aria-controls" => "navbarNav", "aria-expanded" => "false", "aria-label" => "Toggle navigation", "data-bs-target" => "#navbarNav", "data-bs-toggle" => "collapse", :type => "button"}
+      %span.navbar-toggler-icon
+    #navbarNav.collapse.navbar-collapse
+      %ul.navbar-nav
+        - if current_user
+          %li.nav-item
+            = link_to "Accounts", accounts_path, class: "nav-link #{controller.controller_name == "accounts" ? "active" : ""}"
+          %li.nav-item
+            = link_to "Customers", customers_path, class: "nav-link #{!current_user.accounts ? "disabled" : ""} #{controller.controller_name == "customers" ? "active" : ""}"
+          %li.nav-item
+            = link_to "Inventory", inventory_items_path, class: "nav-link #{!current_user.accounts ? "disabled" : ""} #{controller.controller_name == "inventory_items" ? "active" : ""}"
+          %li.nav-item
+            = link_to "Address Book", addresses_path, class: "nav-link #{!current_user.accounts ? "disabled" : ""} #{controller.controller_name == "addresses" ? "active" : ""}"
+          %li.nav-item
+            = link_to "Quotes", quotes_path, class: "nav-link #{!current_user.accounts ? "disabled" : ""} #{controller.controller_name == "quotes" ? "active" : ""}"
+          %li.nav-item
+            = link_to "Settings", edit_user_registration_path, class: "nav-link #{controller.controller_name == "registrations" ? "active" : ""}"
+          %li.nav-item
+            = link_to "Sign Out", destroy_user_session_path, method: :delete, class: 'nav-link'
+        - else
+          %li.nav-item
+            = link_to "Sign up", new_user_registration_path, class: 'nav-link'
+          %li.nav-item
+            = link_to "Log in", new_user_session_path, class: 'nav-link'

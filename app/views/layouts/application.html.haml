@@ -1,0 +1,17 @@
+!!!
+%html
+  %head
+    %meta{:content => "text/html; charset=UTF-8", "http-equiv" => "Content-Type"}/
+    %title BetterCRM
+    = csrf_meta_tags
+    = csp_meta_tag
+    %meta{:content => "width=device-width, initial-scale=1", :name => "viewport"}/
+    = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload'
+    = javascript_include_tag 'application', 'data-turbolinks-track': 'reload'
+    %link{:href => "https://cdn.datatables.net/1.11.5/css/jquery.dataTables.css", :rel => "stylesheet", :type => "text/css"}/
+  %body
+    = render partial: 'layouts/nav'
+    %section.mainPage.container{style: 'margin-bottom: 100px;'}
+      = yield
+    = render partial: 'layouts/footer'
+  %script{:charset => "utf8", :src => "https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js", :type => "text/javascript"}

@@ -1,0 +1,43 @@
+%p#notice= notice
+
+%p
+  %b Customer:
+  = @quote.customer_id
+%p
+  %b Active:
+  = @quote.active
+%p
+  %b Total:
+  = @quote.total
+%p
+  %b Quote type:
+  = @quote.quote_type
+%p
+  %b Taxes:
+  = @quote.taxes
+%p
+  %b Fees:
+  = @quote.fees
+
+%p
+  %b Shipping address:
+  = @quote.shipping_address.full_address
+%p
+  %b Billing address:
+  = @quote.billing_address.full_address
+%p
+  %b Status:
+  = @quote.status
+%p
+  %b Purchase order:
+  = @quote.purchase_order_id
+%p
+  %b Items
+  %br
+  - @quote.quote_items.each do |qi|
+    = "#{qi.item.name} - #{qi.quantity}"
+    %br
+
+= link_to 'Edit', edit_quote_path(@quote)
+\|
+= link_to 'Back', quotes_path

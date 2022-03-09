@@ -1,0 +1,27 @@
+%p#notice= notice
+.card
+  .card-header
+    .text-start
+      .d-inline-flex
+        %h4 Accounts
+    .text-end
+      .d-inline-flex
+        = link_to 'New Account', new_account_path, class: 'btn btn-primary btn-sm'
+        
+  .card-body
+    %table#accounts_table
+      %thead
+        %tr
+          %th Name
+          %th User
+          %th Active
+          %th Actions
+      %tbody
+        - @accounts.each do |account|
+          %tr
+            %td= link_to account.name, account
+            %td= account.user.email
+            %td= account.active
+            %td
+              = link_to 'Edit', edit_account_path(account)
+              | #{link_to 'Destroy', account, method: :delete, data: { confirm: 'Are you sure?' }}

@@ -1,0 +1,21 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: MyString
+  description: MyText
+  stock: 1
+  account_id: 1
+  active: false
+  price: 1.5
+  category: MyString
+  type: 
+
+two:
+  name: MyString
+  description: MyText
+  stock: 1
+  account_id: 1
+  active: false
+  price: 1.5
+  category: MyString
+  type: 

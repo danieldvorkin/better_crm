@@ -1,0 +1,30 @@
+%p#notice= notice
+.card
+  .card-header
+    .text-start
+      .d-inline-flex
+        %h4 Customers
+    .text-end
+      .d-inline-flex
+        = link_to 'New Customer', new_customer_path, class: 'btn btn-primary btn-sm'
+  .card-body
+    %table#customers_table
+      %thead
+        %tr
+          %th Name
+          %th Display Name
+          %th Account
+          %th Email
+          %th Active
+          %th Actions
+      %tbody
+        - @customers.each do |customer|
+          %tr
+            %td= link_to customer.name, customer
+            %td= customer.display_name
+            %td= link_to customer.account.name, customer.account
+            %td= customer.email
+            %td= customer.active
+            %td
+              = link_to 'Edit', edit_customer_path(customer)
+              | #{link_to 'Destroy', customer, method: :delete, data: { confirm: 'Are you sure?' }}

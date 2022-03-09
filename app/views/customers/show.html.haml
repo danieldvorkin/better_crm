@@ -1,0 +1,108 @@
+%p#notice= notice
+.card
+  .card-header
+    .text-start
+      .d-inline-flex
+        %h4 Customer Details
+    .text-end
+      .d-inline-flex
+        = link_to 'Edit', edit_customer_path(@customer), class: 'btn btn-primary btn-sm'
+      .d-inline-flex
+        = link_to 'Back', customers_path, class: 'btn btn-secondary btn-sm'
+  .card-body
+    %p
+      %strong Account:
+      = @customer.account.name
+    %p
+      %strong Name:
+      = @customer.name
+    %p
+      %strong Email:
+      = @customer.email
+    %p
+      %strong Active:
+      = @customer.active
+
+%br
+
+.card
+  .card-header
+    .text-start
+      .d-inline-flex
+        %h4 Addresses
+    .text-end
+      .d-inline-flex
+        = link_to 'New Address', new_address_path, class: 'btn btn-primary btn-sm'
+
+  .card-body
+    %table#addresses_table
+      %thead
+        %tr
+          %th Address1
+          %th Address2
+          %th City
+          %th Country
+          %th Postal
+          %th Phone
+          %th Default
+          %th Active
+          %th Customer
+          %th Actions
+
+      %tbody
+        - @customer.addresses.each do |address|
+          %tr
+            %td= link_to address.address1, address
+            %td= address.address2
+            %td= address.city
+            %td= address.country
+            %td= address.postal
+            %td= address.phone
+            %td= address.default
+            %td= address.active
+            %td= address.customer.name
+            %td
+              = link_to 'Edit', edit_address_path(address) | 
+              = link_to 'Destroy', address, method: :delete, data: { confirm: 'Are you sure?' } 
+
+%br
+
+.card
+  .card-header
+    .text-start
+      .d-inline-flex
+        %h4 Quotes
+    .text-end
+      .d-inline-flex
+        = link_to 'New Quote', new_quote_path, class: 'btn btn-primary btn-sm'
+
+  .card-body
+    %table#quotes_table
+      %thead
+        %tr
+          %th Quote
+          %th Customer
+          %th Total
+          %th Quote type
+          %th Taxes
+          %th Fees
+          %th Shipping address
+          %th Billing address
+          %th Status
+          %th Actions
+
+      %tbody
+        - @customer.quotes.each do |quote|
+          %tr
+            %td= link_to "0000#{quote.id}", quote
+            %td= quote.customer.email
+            %td= number_to_currency quote.total
+            %td= quote.quote_type
+            %td= number_to_currency quote.taxes
+            %td= number_to_currency quote.fees
+            %td= quote.shipping_address.full_address.truncate(20)
+            %td= quote.billing_address.full_address.truncate(20)
+            %td= quote.status
+            %td
+              = link_to 'Edit', edit_quote_path(quote) | 
+              = link_to 'Destroy', quote, method: :delete, data: { confirm: 'Are you sure?' }

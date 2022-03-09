@@ -1,0 +1,82 @@
+.card.border-default
+  .card-header
+    Account Details
+  .card-body
+    .row
+      .col-6.form-group
+        %label{ style: 'min-width: 250px;text-align:right;'}
+          %strong Name:
+        = @account.name
+      .col-6.form-group
+        %label{ style: 'min-width: 250px;text-align:right;'}
+          %strong Owner:
+        = @account.user.email
+      .col-6.form-group
+        %label{ style: 'min-width: 250px;text-align:right;'}
+          %strong Created At:
+        = @account.created_at.strftime("%m/%d/%Y %H:%M")
+
+  .card-footer
+    Status: #{@account.active ? 'Active' : 'Inactive'}
+
+%br
+
+.card.border-default
+  .card-header
+    Customers
+  .card-body
+    %table#customers_table
+      %thead
+        %tr
+          %th Account
+          %th Name
+          %th Email
+          %th Active
+          %th Actions
+      %tbody
+        - @account.customers.each do |customer|
+          %tr
+            %td= link_to customer.account.name, customer.account
+            %td= link_to customer.name, customer
+            %td= customer.email
+            %td= customer.active
+            %td
+              = link_to 'Edit', edit_customer_path(customer)
+              | #{link_to 'Destroy', customer, method: :delete, data: { confirm: 'Are you sure?' }}
+
+%br
+
+.card.border-default
+  .card-header
+    Inventory Items
+  .card-body
+    %table#inventory_items_table
+      %thead
+        %tr
+          %th Name
+          %th Description
+          %th Stock
+          %th Account
+          %th Active
+          %th Price
+          %th Category
+          %th Type
+          %th Actions
+      %tbody
+        - @account.inventory_items.each do |inventory_item|
+          %tr
+            %td= link_to inventory_item.name&.truncate(30), inventory_item
+            %td= inventory_item.description&.truncate(40)
+            %td= inventory_item.stock
+            %td= link_to inventory_item.account.name, inventory_item.account
+            %td= inventory_item.active
+            %td= inventory_item.price
+            %td= inventory_item.category&.truncate(40)
+            %td= inventory_item.product_type
+            %td
+              = link_to 'Edit', edit_inventory_item_path(inventory_item)
+              | #{link_to 'Destroy', inventory_item, method: :delete, data: { confirm: 'Are you sure?' }}
+:javascript
+  $(function(){
+    $('#customers_table, #inventory_items_table').DataTable();
+  });

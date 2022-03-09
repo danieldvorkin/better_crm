@@ -1,0 +1,28 @@
+%p#notice= notice
+%p
+  %strong Name:
+  = @inventory_item.name
+%p
+  %strong Description:
+  = @inventory_item.description
+%p
+  %strong Stock:
+  = @inventory_item.stock
+%p
+  %strong Account:
+  = @inventory_item.account_id
+%p
+  %strong Active:
+  = @inventory_item.active
+%p
+  %strong Price:
+  = @inventory_item.price
+%p
+  %strong Category:
+  = @inventory_item.category
+%p
+  %strong Type:
+  = @inventory_item.product_type
+= link_to 'Edit', edit_inventory_item_path(@inventory_item)
+|
+= link_to 'Back', inventory_items_path

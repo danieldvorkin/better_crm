@@ -1,0 +1,7 @@
+.text-center
+  = image_tag("salesorder.png", class: 'd-block mx-auto mb-4', style: 'height: 95px; width: 95px;')
+  %h2 New Quote
+  %p.lead Create a Quote for a future Purchase Order agreement.
+= render 'form'
+
+= link_to 'Back', quotes_path

@@ -1,0 +1,62 @@
+.text-center
+  %img.d-block.mx-auto.mb-4{:alt => "", :height => "72", :src => "https://freesvg.org/img/abstract-user-flat-4.png", :width => "72"}/
+  %h2 Account Settings
+  %p.lead Edit account settings related to your User Account.
+.row
+  .col-md-7.col-lg-8
+    %h4.mb-3 Account Details
+    = form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f|
+      .row.g-3
+        = render "devise/shared/error_messages", resource: resource
+        - if devise_mapping.confirmable? && resource.pending_reconfirmation?
+          %div
+            Currently waiting confirmation for: #{resource.unconfirmed_email}
+        .col-sm-10
+          = f.label :email, class: 'form-label'
+          = f.email_field :email, autofocus: true, autocomplete: "email", class: 'form-control'
+          .invalid-feedback Email is required
+        .col-sm-10
+          = f.label :password, class: 'form-label'
+          %i (leave blank if you don't want to change it)
+          = f.password_field :password, autofocus: true, autocomplete: "password", class: 'form-control'
+          .invalid-feedback Password is required
+        .col-sm-10
+          = f.label :password_confirmation, class: 'form-label'
+          = f.password_field :password_confirmation, autofocus: true, autocomplete: "password", class: 'form-control'
+        .col-sm-10
+          = f.label :current_password, class: 'form-label'
+          %i (we need your current password to confirm your changes)
+          = f.password_field :current_password, autofocus: true, autocomplete: "password", class: 'form-control'
+      %hr.my-4/
+      .row.g-3
+        = f.submit "Update", class: 'btn btn-primary btn-md col-6'
+        = link_to "Cancel", :back, class: 'btn btn-secondary btn-md col-6'
+  .col-md-5.col-lg-4
+    %h4.d-flex.justify-content-between.align-items-center.mb-3
+      %span.text-primary Account Configuration
+    %ul.list-group.mb-3
+      %li.list-group-item.d-flex.justify-content-between.lh-sm
+        %div
+          %h6.my-0 Accounts
+          %small.text-muted Active Supplier Accounts
+        %span.text-muted= current_user.accounts.count
+      %li.list-group-item.d-flex.justify-content-between.lh-sm
+        %div
+          %h6.my-0 Account Customers
+          %small.text-muted Active Account Customers
+        %span.text-muted= current_user.accounts.map(&:customers).flatten.count
+      %li.list-group-item.d-flex.justify-content-between.lh-sm
+        %div
+          %h6.my-0 Account Inventory Items
+          %small.text-muted Active Account Items
+        %span.text-muted= current_user.accounts.map(&:inventory_items).flatten.count
+      %li.list-group-item.d-flex.justify-content-between.bg-light
+        .text-success
+          %h6.my-0 Account Status:
+          %small= current_user.created_at.to_date
+        %span.text-success Active
+      %li.list-group-item
+        = button_to "Cancel my account", registration_path(resource_name), data: { confirm: "Are you sure?" }, method: :delete, class: 'btn btn-danger w-100'
+    %form.card.p-2
+      .input-group
+        %input.form-control{:placeholder => "Looking for something....", :type => "text"}/
