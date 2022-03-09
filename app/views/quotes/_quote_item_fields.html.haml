@@ -1,7 +1,7 @@
 .nested-fields.row
   .field-group.col-3
     = f.label :item_id, class: 'form-label'
-    = f.select :item_id, options_from_collection_for_select(InventoryItem.all, "id", "name"), {}, class: 'form-control'
+    = f.select :item_id, options_from_collection_for_select(InventoryItem.where.not(stock: 0), "id", "name"), {}, class: 'form-control'
   .field-group.col-2
     = f.label :quantity, class: 'form-label'
     = f.text_field :quantity, class: 'form-control'

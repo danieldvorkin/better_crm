@@ -3,11 +3,7 @@ class AddressesController < ApplicationController
 
   # GET /addresses or /addresses.json
   def index
-    @addresses = if params[:customer_id]
-      Address.where(customer_id: params[:customer_id])
-    else
-      Address.all
-    end
+    @addresses = params[:customer_id] ? Address.where(customer_id: params[:customer_id]) : Address.all
   end
 
   # GET /addresses/1 or /addresses/1.json

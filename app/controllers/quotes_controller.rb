@@ -3,7 +3,7 @@ class QuotesController < ApplicationController
 
   # GET /quotes or /quotes.json
   def index
-    @quotes = Quote.all
+    @quotes = params[:customer_id] ? Quote.where(customer_id: params[:customer_id], active: true) : Quote.where(active: true)
   end
 
   # GET /quotes/1 or /quotes/1.json

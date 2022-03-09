@@ -1,43 +1,61 @@
-%p#notice= notice
+.card
+  .card-header
+    .text-start
+      .d-inline-flex
+        %h4 Quote
+    .text-end
+      .d-inline-flex
+        = link_to 'Edit', edit_quote_path(@quote), class: 'btn btn-primary btn-sm'
+  .card-body
+    .row
+      .col-3
+        %strong Customer:
+        = link_to @quote.customer.name
+      .col-3
+        %strong Status:
+        = @quote.status
+      .col-3
+        %strong Total:
+        = number_to_currency @quote.total
+      
+      .col-6
+        %strong Shipping Address:
+        = @quote.shipping_address.full_address
+        %br
+        %strong Billing Address:
+        = @quote.billing_address.full_address
+      .col-3
+        %strong Taxes:
+        = number_to_currency @quote.taxes
+        %strong Fees:
+        = number_to_currency @quote.fees
+    %hr
 
-%p
-  %b Customer:
-  = @quote.customer_id
-%p
-  %b Active:
-  = @quote.active
-%p
-  %b Total:
-  = @quote.total
-%p
-  %b Quote type:
-  = @quote.quote_type
-%p
-  %b Taxes:
-  = @quote.taxes
-%p
-  %b Fees:
-  = @quote.fees
+    .row
+      .col-12
+        %h4 Items
+        %table#quote_items
+          %thead
+            %tr
+              %th Name
+              %th Description
+              %th Quantity
+              %th Active
+              %th Price
+              %th Category
+          %tbody
+            - @quote.quote_items.each do |inventory_item|
+              %tr
+                %td= link_to inventory_item.item.name&.truncate(30), inventory_item.item
+                %td= inventory_item.item.description&.truncate(40)
+                %td= inventory_item.quantity
+                %td= inventory_item.item.active
+                %td= inventory_item.price
+                %td= inventory_item.item.category&.truncate(40)
 
-%p
-  %b Shipping address:
-  = @quote.shipping_address.full_address
-%p
-  %b Billing address:
-  = @quote.billing_address.full_address
-%p
-  %b Status:
-  = @quote.status
-%p
-  %b Purchase order:
-  = @quote.purchase_order_id
-%p
-  %b Items
-  %br
-  - @quote.quote_items.each do |qi|
-    = "#{qi.item.name} - #{qi.quantity}"
-    %br
-
-= link_to 'Edit', edit_quote_path(@quote)
-\|
-= link_to 'Back', quotes_path
+:javascript
+  $(function(){
+    $('#quote_items').DataTable({
+      "lengthChange": false
+    });
+  });

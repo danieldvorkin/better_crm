@@ -18,6 +18,8 @@
 //= require cocoon
 //= require_tree .
 
-$(function(){
-    $('#accounts_table, #customers_table, #inventory_items_table, #addresses_table, #quotes_table').DataTable();
+$(function () {
+  $('#accounts_table, #customers_table, #inventory_items_table, #addresses_table, #quotes_table').DataTable({
+    "lengthChange": false
+  });
 });

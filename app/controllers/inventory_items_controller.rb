@@ -3,7 +3,7 @@ class InventoryItemsController < ApplicationController
   before_action :authenticate_user!
   # GET /inventory_items or /inventory_items.json
   def index
-    @inventory_items = InventoryItem.all
+    @inventory_items = params[:account_id] ? InventoryItem.where(account_id: params[:account_id]) : InventoryItem.all
   end
 
   # GET /inventory_items/1 or /inventory_items/1.json

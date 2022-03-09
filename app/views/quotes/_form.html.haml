@@ -5,40 +5,41 @@
       %ul
         - @quote.errors.full_messages.each do |message|
           %li= message
-
-  .field-group
-    = f.label :customer_id, class: 'form-label'
-    = f.select :customer_id, options_from_collection_for_select(Customer.where(active: true), "id", "display_name"), {}, class: 'form-control'
-  .field-group
-    = f.label :total, class: 'form-label'
-    = f.text_field :total, class: 'form-control'
-  .field-group
-    = f.label :quote_type, class: 'form-label'
-    = f.text_field :quote_type, class: 'form-control'
-  .field-group
-    = f.label :taxes, class: 'form-label'
-    = f.text_field :taxes, class: 'form-control'
-  .field-group
-    = f.label :fees, class: 'form-label'
-    = f.text_field :fees, class: 'form-control'
-  .field-group
-    = f.label :shipping_address, class: 'form-label'
-    = f.select :shipping_address_id, options_from_collection_for_select(Address.all, "id", "full_address", @quote.shipping_address_id), {}, class: 'form-control'
-  .field-group
-    = f.label :billing_address, class: 'form-label'
-    = f.select :billing_address_id, options_from_collection_for_select(Address.all, "id", "full_address", @quote.billing_address_id),  {}, class: 'form-control'
-  .field-group
-    = f.label :status, class: 'form-label'
-    = f.select :status, options_for_select(["Pending", "Approved"]), {}, class: 'form-control'
-  %br
-  .field-group
-    #quote_items
-    = f.fields_for :quote_items do |quote_item|
-      = render 'quote_item_fields', f: quote_item
-    .links.mt-4.mb-3
-      = link_to_add_association 'Add Item', f, :quote_items, class: 'btn btn-primary'
-  .field-group
-    = f.label :active, class: 'form-label'
-    = f.check_box :active
-  .actions
-    = f.submit 'Save'
+  .row
+    .field-group.col-6
+      = f.label :customer_id, class: 'form-label'
+      = f.select :customer_id, options_from_collection_for_select(Customer.where(active: true), "id", "display_name"), {}, class: 'form-control'
+    .field-group.col-6
+      = f.label :total, class: 'form-label'
+      = f.text_field :total, class: 'form-control'
+    .field-group.col-6
+      = f.label :quote_type, class: 'form-label'
+      = f.text_field :quote_type, class: 'form-control'
+    .field-group.col-3
+      = f.label :taxes, class: 'form-label'
+      = f.text_field :taxes, class: 'form-control'
+    .field-group.col-3
+      = f.label :fees, class: 'form-label'
+      = f.text_field :fees, class: 'form-control'
+    .field-group.col-6
+      = f.label :shipping_address, class: 'form-label'
+      = f.select :shipping_address_id, options_from_collection_for_select(Address.all, "id", "full_address", @quote.shipping_address_id), {}, class: 'form-control'
+    .field-group.col-6
+      = f.label :billing_address, class: 'form-label'
+      = f.select :billing_address_id, options_from_collection_for_select(Address.all, "id", "full_address", @quote.billing_address_id),  {}, class: 'form-control'
+    .field-group.col-3
+      = f.label :status, class: 'form-label'
+      = f.select :status, options_for_select(["Pending", "Approved"]), {}, class: 'form-control'
+  %hr
+  .row
+    .field-group
+      #quote_items
+      = f.fields_for :quote_items do |quote_item|
+        = render 'quote_item_fields', f: quote_item
+      .links.mt-4.mb-3
+        = link_to_add_association 'Add Item', f, :quote_items, class: 'btn btn-primary'
+    .field-group
+      = f.label :active, class: 'form-label'
+      = f.check_box :active
+    .actions
+      = f.submit 'Save'
