@@ -41,6 +41,18 @@
   background: grey;
 }
 
+#dashboard_customers_table {
+  tr.notshown td:first-child {
+    background: url('https://datatables.net/examples/resources/details_open.png') no-repeat center center;
+    cursor: pointer;
+  }
+  tr.shown td:first-child {
+    background: url('https://datatables.net/examples/resources/details_close.png') no-repeat center center;
+    cursor: pointer;
+  }
+}
+
+
 @media (max-width: 450px) {
   .h-custom {
     height: 100%;

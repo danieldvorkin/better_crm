@@ -31,6 +31,9 @@
         .col-sm-6
           = form.label :product_type, class: 'form-label'
           = form.text_field :product_type, autocomplete: "product_type", class: 'form-control'
+        .col-12
+          = form.label :active, class: 'form-label'
+          = form.check_box :active
         .row.g-3
           .col-1
           = form.submit "Save", class: 'btn btn-primary btn-md col-4'

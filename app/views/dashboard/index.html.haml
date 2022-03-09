@@ -1,0 +1,123 @@
+.row
+  .col-3
+    %h3 Statistics
+    %hr
+    .row 
+      .col-12
+        %strong Total Quotes:
+        .text-end{style: "position:relative;top:-25px;"}= Quote.all.count
+      .col-12
+        %strong Active Accounts:
+        .text-end{style: "position:relative;top:-25px;"}= link_to Account.where(active: true).count, accounts_path
+        %small{style: 'position:relative;top:-30px;'}= "#{Account.where(active: false).count} Inactive Accounts"
+      .col-12
+        %strong Active Customers:
+        .text-end{style: "position:relative;top:-25px;"}= link_to Customer.where(active: true).count, customers_path
+        %small{style: 'position:relative;top:-30px;'}= "#{Customer.where(active: false).count} Inactive Customers"
+      .col-12
+        %strong Active Inventory Items:
+        .text-end{style: "position:relative;top:-25px;"}= link_to InventoryItem.where(active: true).count, inventory_items_path
+        %small{style: 'position:relative;top:-30px;'}= "#{InventoryItem.where(active: false).count} Inactive Inventory Items"
+      .col-12
+        %strong Active Addresses:
+        .text-end{style: "position:relative;top:-25px;"}= link_to Address.where(active: true).count, addresses_path
+        %small{style: 'position:relative;top:-30px;'}= "#{Address.where(active: false).count} Inactive Addresses"
+  .col-9
+    .card
+      .card-header
+        .text-start
+          .d-inline-flex
+            %h4 Dashboard
+        .text-end
+          .d-inline-flex
+            = link_to 'New Account', new_account_path, class: 'btn btn-primary btn-sm'
+          .d-inline-flex
+            = link_to 'New Customer', new_customer_path, class: 'btn btn-primary btn-sm'
+          .d-inline-flex
+            = link_to 'New Item', new_inventory_item_path, class: 'btn btn-primary btn-sm'
+          .d-inline-flex
+            = link_to 'New Address', new_address_path, class: 'btn btn-primary btn-sm'
+      .card-body
+        %table#dashboard_customers_table
+          %thead
+            %tr
+              %th
+              %th Name
+              %th Display Name
+              %th Account
+              %th Email
+              %th Active
+          %tbody
+            - Customer.all.each do |customer|
+              %tr.notshown
+                %td.toggle{data: {id: customer.id}}
+                %td= link_to customer.name, customer
+                %td= customer.display_name
+                %td= link_to customer.account.name, customer.account
+                %td= customer.email
+                %td= customer.active
+      .card-footer
+
+:javascript
+  function format(d){
+    // `d` is the original data object for the row
+    var createdAt = new Date(d.created_at).toLocaleDateString() + " " + new Date(d.created_at).toLocaleTimeString();
+    var html = '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">'+
+      '<tr>'+
+          '<td><strong>Full name:</strong></td>'+
+          '<td><i>'+d.display_name+'</i></td>'+
+          '<td><strong>Created:</strong></td>'+
+          '<td><i>'+createdAt+'</i></td>'+
+          '<td><strong>Phone:</strong></td>'+
+          '<td><i>'+d.phone_num+'</i></td>'+
+      '</tr>'+
+    '</table>' +
+    '<table class="table" cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">';
+      $.each(d.quotes, function(index, q){
+        debugger;
+        var createdQuoteAt = new Date(q.created_at).toLocaleDateString() + " " + new Date(q.created_at).toLocaleTimeString();
+        html += '<tr>'+
+          '<td><strong>Quote ID:</strong></td>'+
+          '<td><i><a href="/quotes/' + q.id +'">#0000'+q.id+'</a></i></td>'+
+          '<td><strong>Created:</strong></td>'+
+          '<td><i>'+createdQuoteAt+'</i></td>'+
+          '<td><strong>Status:</strong></td>'+
+          '<td><i>'+q.status+'</i></td>'+
+          '<td><strong>Total:</strong></td>'+
+          '<td><i>$'+q.total+'</i></td>'+
+          '<td><strong>Tax:</strong></td>'+
+          '<td><i>$'+q.taxes+'</i></td>'+
+        '</tr>'
+      })
+    html += '</table>';
+
+    return html
+  }
+ 
+  $(function() {
+    var table = $('#dashboard_customers_table').DataTable({
+        "order": [[1, 'asc']]
+    });
+    
+    // Add event listener for opening and closing details
+    $('#dashboard_customers_table tbody').on('click', 'td.toggle', function () {
+      var tr = $(this).closest('tr');
+      var row = table.row( tr );
+
+      if (row.child.isShown()) {
+        row.child.hide();
+        tr.removeClass('shown').addClass('notshown');
+      } else {
+        var customerData = {};
+        $.ajax({
+          url: '/getCustomerData',
+          type: 'GET',
+          data: { id: $(this).attr('data-id') },
+          success: function(response){
+            row.child(format(response)).show();
+          }
+        })
+        tr.addClass('shown').removeClass('notshown');
+      }
+    });
+  });
