@@ -14,15 +14,18 @@
     $('#address_lookup').select2({
       ajax: {
         url: "/lookup",
-        delay: 250,
+        delay: 2000,
         type: 'GET',
         data: function(params){
+          $('#address_lookup').val('');
           return { query: params.term }
         },
         processResults: function (data) {
           var data = $.map(data, function(item){
-            var formattedAddress = [item.address.house_number, item.address.road, item.address.city, item.address.postcode, item.address.state, item.address.country].join(" ")
-            return { id: item.place_id, text: formattedAddress }
+            var addy = item.address;
+            var formattedAddress = [addy.house_number, addy.road, addy.city, addy.postcode, addy.state, addy.country].join(" ")
+          
+            return { id: formattedAddress, text: formattedAddress }
           });
 
           return {
@@ -36,14 +39,16 @@
       $.ajax({
         url: '/lookup',
         type: 'GET',
-        data: { query: e.target.textContent },
+        data: { query: e.target.value },
         success: function(resp){
           if(resp.length > 0){
             $('#address_address1').val([resp[0].address.house_number, resp[0].address.road].join(" "));
+            $('#address_address2').val('');
             $('#address_city').val(resp[0].address.city);
             $('#address_country').val(resp[0].address.country);
             $('#address_postal').val(resp[0].address.postcode);
             $('#address_state_province').val(resp[0].address.state);
+            $('#address_phone').val('');
           }
         }
       })

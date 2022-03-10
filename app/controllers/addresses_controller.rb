@@ -58,9 +58,10 @@ class AddressesController < ApplicationController
   end
 
   def lookup
-    results = Geocoder.search(params[:query], params: { countrycodes: 'us,ca,eu'})
+    results = JSON.parse(Geocoder::Lookup.get(:nominatim).send(:fetch_raw_data, Geocoder::Query.new(params[:query])))
+    
     respond_to do |format|
-      format.json { render json: results.map(&:data) }
+      format.json { render json: results }
     end
   end
 
